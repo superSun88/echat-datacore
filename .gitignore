@@ -6,3 +6,4 @@ data-core/.settings/org.eclipse.jdt.core.prefs
 data-core/.settings/org.eclipse.m2e.core.prefs
 data-core/.vscode/launch.json
 data-core/target/
+data-core/logs/sun_echat.log
