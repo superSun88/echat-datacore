@@ -1,11 +1,11 @@
-package sun.echat.mapper;
+package sun.echat.service;
 
 import java.util.List;
 import java.util.Map;
 
 import sun.echat.domain.UserInfo;
 
-public interface UserListMapper {
+public interface UserListService {
 
     public void saveUserInfo(UserInfo userInfo);
     

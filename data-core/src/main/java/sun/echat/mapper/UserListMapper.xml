@@ -3,8 +3,19 @@
 <mapper namespace="sun.echat.mapper.UserListMapper">
 
 
-    <insert id="saveUserInfo" parameterType="java.util.Map">
+    <insert id="saveUserInfo" parameterType="sun.echat.domain.UserInfo">
         insert into user_list (id, ip, nick_name, online, register_time)
         values (#{id}, #{ip}, #{nickName}, 1, now())
     </insert>
+
+     <select id="selectUserInfo" parameterType="sun.echat.domain.UserInfo" 
+                                    resultType="sun.echat.domain.UserInfo">
+        select id,ip,nick_name as nickName,online,register_time as registerTime
+        from user_list
+        <where>
+        <if test="ip != null and ip != ''">
+        ip = #{ip,jdbcType=VARCHAR}
+        </if>
+        </where>
+     </select>
 </mapper>
