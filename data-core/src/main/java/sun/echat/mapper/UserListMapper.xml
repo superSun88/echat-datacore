@@ -8,13 +8,33 @@
         values (#{id}, #{ip}, #{nickName}, 1, now())
     </insert>
 
+
+ <update id="updateUserInfo" parameterType="sun.echat.domain.UserInfo">
+        update user_list 
+        <set>
+        <if test="online != null">
+            online = #{online,jdbcType=VARCHAR},
+        </if>
+         <if test="nickName != null and nickName != ''">
+            nick_name = #{nickName,jdbcType=VARCHAR},
+        </if>
+        </set>
+        <where>
+        id=#{id,jdbcType=BIGINT}
+        </where>
+
+    </update>
+
      <select id="selectUserInfo" parameterType="sun.echat.domain.UserInfo" 
                                     resultType="sun.echat.domain.UserInfo">
         select id,ip,nick_name as nickName,online,register_time as registerTime
         from user_list
         <where>
         <if test="ip != null and ip != ''">
-        ip = #{ip,jdbcType=VARCHAR}
+        AND ip = #{ip,jdbcType=VARCHAR}
+        </if>
+         <if test="online != null">
+        AND online = #{online,jdbcType=INTEGER}
         </if>
         </where>
      </select>

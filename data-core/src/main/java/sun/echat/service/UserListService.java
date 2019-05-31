@@ -1,15 +1,70 @@
 package sun.echat.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import sun.echat.domain.Const;
 import sun.echat.domain.UserInfo;
+import sun.echat.mapper.UserListMapper;
+import sun.echat.service.UserListService;
+import sun.echat.util.CommonUtil;
 
-public interface UserListService {
+@Service
+public class UserListService {
 
-    public void saveUserInfo(UserInfo userInfo);
-    
-    public List<UserInfo> selectUserInfo(UserInfo userInfo);
+    private static final Logger logger = LoggerFactory.getLogger(UserListService.class);
+    @Autowired
+    private UserListMapper userListMapper;
+
+    @Transactional(readOnly = false,rollbackFor = Exception.class)
+    public void onlineUserInfo(UserInfo userInfo){
+
+        UserInfo param = new UserInfo();
+        param.setIp(userInfo.getIp());
+        List<UserInfo> userInfos = userListMapper.selectUserInfo(param);
+
+        if(CollectionUtils.isEmpty(userInfos)){
+            param.setId(CommonUtil.ID());
+            param.setNickName(Const.getRandomNickName());
+            param.setOnline(1);
+            userListMapper.saveUserInfo(param);
+        }else{
+            userInfo = userInfos.get(0);
+            param.setOnline(1);
+            param.setId(userInfo.getId());
+            userListMapper.updateUserInfo(param);
+        }
+    }
+
+    @Transactional(readOnly = false,rollbackFor = Exception.class)
+    public void offlineUserInfo(UserInfo userInfo){
+
+        UserInfo param = new UserInfo();
+        param.setIp(userInfo.getIp());
+        List<UserInfo> userInfos = userListMapper.selectUserInfo(param);
+
+        if(!CollectionUtils.isEmpty(userInfos)){
+            userInfo = userInfos.get(0);
+            param.setOnline(0);
+            param.setId(userInfo.getId());
+            userListMapper.updateUserInfo(param);
+        }
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<UserInfo> selectUserInfo(UserInfo userInfo){
+        return userListMapper.selectUserInfo(userInfo);
+
+    }
 
    
 }
