@@ -1,7 +1,6 @@
 package sun.echat.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import sun.echat.domain.UserInfo;
 

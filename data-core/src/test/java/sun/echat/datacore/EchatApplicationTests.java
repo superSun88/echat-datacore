@@ -12,7 +12,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import sun.echat.EchatApplication;
 import sun.echat.domain.UserInfo;
 import sun.echat.service.UserListService;
-import sun.echat.service.UserListService;
 import sun.echat.util.CommonUtil;
 
 @RunWith(SpringRunner.class)

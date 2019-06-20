@@ -2,7 +2,6 @@ package sun.echat.controller;
 
 import java.util.List;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
 import org.slf4j.Logger;
@@ -31,7 +30,7 @@ public class RestCoreController {
     }
 
     @RequestMapping(value = "/onlineUser",method = RequestMethod.POST)
-    public Response onlineUser(UserInfo userInfo){
+    public Response<String> onlineUser(UserInfo userInfo){
         logger.info("创建或者上线用户 user:{}",JSONObject.toJSON(userInfo).toString());  
         Response<String> response = new Response<>();
 
@@ -54,7 +53,7 @@ public class RestCoreController {
     }
 
     @RequestMapping(value = "/offlineUser",method = RequestMethod.POST)
-    public Response offlineUser(UserInfo userInfo){        
+    public Response<String> offlineUser(UserInfo userInfo){        
         logger.info("下线用户 user:{}",JSONObject.toJSON(userInfo).toString());    
         Response<String> response = new Response<>();
 
@@ -77,7 +76,7 @@ public class RestCoreController {
     }
 
     @RequestMapping(value = "/get_online_users",method = RequestMethod.GET)
-    public Response onlineUsers(){
+    public Response<List<UserInfo>> onlineUsers(){
         logger.info("获取在线用户 ");    
         Response<List<UserInfo>> response = new Response<>();
 
